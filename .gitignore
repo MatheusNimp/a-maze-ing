@@ -1,0 +1,17 @@
+# Python cache
+__pycache__/
+*.pyc
+
+# Virtual environment
+.venv/
+
+# Type checker / tests
+.mypy_cache/
+.pytest_cache/
+
+# Build / packaging
+build/
+dist/
+*.egg-info/
+*.whl
+*.tar.gz
