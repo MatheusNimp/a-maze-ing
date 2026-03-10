@@ -5,13 +5,13 @@ from mazegen.grid import Maze, has_wall, E, S
 Coord = Tuple[int, int]
 
 # Rendering constants
-_CELL   = "   "
+_CELL = "   "
 _WALL_H = "---"
 _WALL_V = "|"
 _CORNER = "+"
-_ENTRY  = " E "
-_EXIT   = " X "
-_PATH   = " . "
+_ENTRY = " E "
+_EXIT = " X "
+_PATH = " . "
 
 
 def render_ascii(

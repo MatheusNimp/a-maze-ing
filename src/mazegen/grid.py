@@ -4,7 +4,7 @@ grid.py — Core types and grid utilities.
 from __future__ import annotations
 
 from dataclasses import dataclass
-from typing import List, Optional, Tuple
+from typing import List, Optional, Tuple, FrozenSet
 
 # (x, y)
 Coord = Tuple[int, int]
@@ -28,6 +28,16 @@ class Maze:
     exit: Coord
     perfect: bool
     seed: Optional[int] = None
+
+    # --- Pattern 42 support ---
+    # Cells that must remain fully closed (used to draw "42").
+    blocked: FrozenSet[Coord] = frozenset()
+
+    # If the maze is too small (or conflicts with entry/exit),
+    # the pattern may be omitted.
+    # The CLI should print a warning when this happens.
+    pattern42_omitted: bool = False
+    pattern42_reason: Optional[str] = None
 
 
 def in_bounds(width: int, height: int, coord: Coord) -> bool:

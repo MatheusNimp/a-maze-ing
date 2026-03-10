@@ -82,7 +82,7 @@ def read_config_file(path: str) -> dict[str, str]:
 def parse_config(path: str) -> Config:
     raw = read_config_file(path)
 
-    required = ["WIDTH", "HEIGHT", "ENTRY", "EXIT", "PERFECT", "OUTPUT"]
+    required = ["WIDTH", "HEIGHT", "ENTRY", "EXIT", "PERFECT", "OUTPUT_FILE"]
     missing = [k for k in required if k not in raw]
     if missing:
         raise ValueError(f"Missing config keys: {', '.join(missing)}")
@@ -92,7 +92,7 @@ def parse_config(path: str) -> Config:
     entry = _parse_coord(raw["ENTRY"])
     exit_ = _parse_coord(raw["EXIT"])
     perfect = _parse_bool(raw["PERFECT"])
-    output = raw["OUTPUT"]
+    output = raw["OUTPUT_FILE"]
 
     seed: Optional[int] = None
     if "SEED" in raw and raw["SEED"].strip() != "":

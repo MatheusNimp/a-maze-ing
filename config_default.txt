@@ -1,17 +1,17 @@
 # Amazeing - default config
 
-WIDTH=10
-HEIGHT=10
+WIDTH=20
+HEIGHT=20
 
 # Coordinates are x,y
 ENTRY=0,0
-EXIT=9,9
+EXIT=19,19
 
 # If PERFECT=true, maze must be perfect (unique path)
-PERFECT=true
+PERFECT=false
 
 # Optional
 SEED=42
 
 # Output file to generate
-OUTPUT=maze_output.txt
+OUTPUT_FILE=maze_output.txt
