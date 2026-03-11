@@ -4,6 +4,15 @@ from mazegen.grid import Maze, has_wall, E, S
 
 Coord = Tuple[int, int]
 
+ANSI_COLORS = {
+    "RESET": "\033[0m",
+    "WALL": "\033[37m",
+    "PATH": "\033[92m",
+    "ENTRY": "\033[94m",
+    "EXIT": "\033[91m",
+    "PATTERN42": "\033[93m"
+}
+
 # Rendering constants
 _CELL = "   "
 _WALL_H = "---"
@@ -44,6 +53,11 @@ def render_ascii(
 
 
 # ── helpers ──────────────────────────────────────────────────────────────────
+def paint(text: str, color_name: str) -> str:
+    color_code = ANSI_COLORS.get(color_name, ANSI_COLORS["RESET"])
+    # Apply a color to a text
+    return f"{color_code}{text}{ANSI_COLORS['RESET']}"
+
 
 def _top_border(width: int) -> str:
     # Builds the top edge: +---+---+---+
@@ -51,32 +65,44 @@ def _top_border(width: int) -> str:
 
 
 def _cell_content(coord: Coord, maze: Maze, sol_set: set) -> str:
-    # Returns the display content for a single cell
     if coord == maze.entry:
-        return _ENTRY
+        return f"{ANSI_COLORS['ENTRY']}{_ENTRY}{ANSI_COLORS['RESET']}"
     if coord == maze.exit:
-        return _EXIT
+        return f"{ANSI_COLORS['EXIT']}{_EXIT}{ANSI_COLORS['RESET']}"
+
     if coord in sol_set:
-        return _PATH  # Cell is part of the solution path
-    return _CELL      # Empty cell
+        return f"{ANSI_COLORS['PATH']}{_PATH}{ANSI_COLORS['RESET']}"
+
+    if coord in maze.blocked:
+        return f"{ANSI_COLORS['PATTERN42']} 42{ANSI_COLORS['RESET']}"
+
+    return _CELL
 
 
 def _row_cells(maze: Maze, y: int, sol_set: set) -> str:
     # Builds a row of cells with their east walls: | E | . |   |
-    row = _WALL_V
+    row = paint(_WALL_V, "WALL")
     for x in range(maze.width):
         content = _cell_content((x, y), maze, sol_set)
         # Use a wall character if east wall exists, otherwise open space
-        east_wall = _WALL_V if has_wall(maze.grid[y][x], E) else " "
+        east_wall = (
+            paint(_WALL_V, "WALL")
+            if has_wall(maze.grid[y][x], E)
+            else "   "
+        )
         row += content + east_wall
     return row
 
 
 def _row_bottom(maze: Maze, y: int) -> str:
     # Builds the bottom border of a row: +---+   +---+
-    row = _CORNER
+    row = paint(_CORNER, "WALL")
     for x in range(maze.width):
         # Use a wall segment if south wall exists, otherwise open space
-        south = _WALL_H if has_wall(maze.grid[y][x], S) else _CELL
+        south = (
+            paint(_WALL_H, "WALL")
+            if has_wall(maze.grid[y][x], S)
+            else "   "
+        )
         row += south + _CORNER
     return row
