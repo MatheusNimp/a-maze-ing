@@ -1,14 +1,14 @@
 # Amazeing - default config
 
-WIDTH=20
-HEIGHT=20
+WIDTH=10
+HEIGHT=10
 
 # Coordinates are x,y
 ENTRY=0,0
-EXIT=19,19
+EXIT=1,9
 
 # If PERFECT=true, maze must be perfect (unique path)
-PERFECT=false
+PERFECT=true
 
 # Optional
 SEED=42
