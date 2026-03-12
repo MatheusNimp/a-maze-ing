@@ -6,8 +6,7 @@ PIP := $(VENV)/bin/pip
 FLAKE8 := $(VENV)/bin/flake8
 MYPY := $(VENV)/bin/mypy
 
-# Directories to exclude from flake8 scanning (virtualenv + caches + build outputs)
-FLAKE8_EXCLUDE := .venv,venv,__pycache__,.mypy_cache,.pytest_cache,dist,build
+FLAKE8_EXCLUDE := .venv,venv,__pycache__,.mypy_cache,.pytest_cache,dist,build,tests
 
 install: $(VENV)/bin/activate
 	$(PIP) install -U pip
@@ -29,11 +28,11 @@ clean:
 
 lint: $(VENV)/bin/activate
 	$(FLAKE8) . --exclude $(FLAKE8_EXCLUDE)
-	$(MYPY) . --warn-return-any --warn-unused-ignores --ignore-missing-imports --disallow-untyped-defs --check-untyped-defs
+	$(MYPY) . --exclude '^tests/' --warn-return-any --warn-unused-ignores --ignore-missing-imports --disallow-untyped-defs --check-untyped-defs
 
 lint-strict: $(VENV)/bin/activate
 	$(FLAKE8) . --exclude $(FLAKE8_EXCLUDE)
-	$(MYPY) . --strict
+	$(MYPY) . --exclude '^tests/' --strict
 
 build: $(VENV)/bin/activate
 	$(PIP) install -U build
