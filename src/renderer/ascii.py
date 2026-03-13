@@ -51,7 +51,7 @@ def _top_border(width: int, color: str) -> str:
     return f"{color}{_CORNER}{RESET}{segment * width}"
 
 
-def _cell_content(coord: Coord, maze: Maze, sol_set: set) -> str:
+def _cell_content(coord: Coord, maze: Maze, sol_set: set[Coord]) -> str:
     """Retorna o conteúdo interno de uma célula com cores fixas."""
     if coord == maze.entry:
         return f"{COLOR_ENTRY} E {RESET}"
@@ -64,7 +64,7 @@ def _cell_content(coord: Coord, maze: Maze, sol_set: set) -> str:
     return _CELL
 
 
-def _row_cells(maze: Maze, y: int, sol_set: set, color: str) -> str:
+def _row_cells(maze: Maze, y: int, sol_set: set[Coord], color: str) -> str:
     """Renderiza uma linha de células e suas paredes verticais."""
     row = f"{color}{_WALL_V}{RESET}"
     for x in range(maze.width):
