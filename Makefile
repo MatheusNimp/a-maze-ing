@@ -44,3 +44,5 @@ lint-strict: $(VENV)/bin/activate
 build: $(VENV)/bin/activate
 	$(PY) -m pip install -U build
 	$(PY) -m build
+	cp dist/mazegen-*.tar.gz .
+	cp dist/mazegen-*.whl .
